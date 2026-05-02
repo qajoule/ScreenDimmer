@@ -1,0 +1,19 @@
+# ビルド出力ディレクトリ
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio 固有のファイル
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+
+# 発行（Publish）の出力
+Publish/
+publish/
+
+# その他一時ファイル
+*.tmp
+*.bak
+*.log
