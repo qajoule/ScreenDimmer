@@ -23,6 +23,8 @@ ScreenDimmer is a lightweight, portable utility for Windows 10/11 that simulates
 It generates a black, click-through overlay that covers the entire main screen, effectively lowering the perceived brightness while ignoring all user inputs.
 Designed for simplicity and reliability, it requires no installation. If you find it useful, feel free to add a shortcut to your Startup folder for daily use.
 
+https://github.com/user-attachments/assets/aa0f9a43-45f7-4d2c-afcb-d631691c31ef
+
 ## 2. 特徴 (Features)
 
 * **単一ファイル実行**: DLLやランタイムに依存せず、`.exe` 一つでどこでも動作します。
