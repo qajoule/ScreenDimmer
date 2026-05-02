@@ -5,7 +5,7 @@
     <Application.Resources>
         <tb:TaskbarIcon x:Key="TaskbarIcon"
                         IconSource="/ico.ico"
-                        ToolTipText="Screen Filter (Left Click: Toggle)"
+                        ToolTipText="Screen Dimmer (Left Click: Toggle)"
                         LeftClickCommand="{Binding ToggleFilterCommand}">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
