@@ -1,22 +1,37 @@
-# ScreenDimmer
+# ScreenDimmer - Technical Architecture
 
-A simple, single-file screen dimmer application for Windows.
+本リポジトリは、Windows環境において画面の輝度をソフトウェア的に調整するユーティリティ「ScreenDimmer」のソースコードおよび技術仕様を管理しています。
 
-## 機能 (Features)
+## 1. システム要件と技術スタック (System Requirements & Tech Stack)
 
-* **単一ファイル実行**: インストール不要。`ScreenDimmer.exe` のみで動作します。
-* **ワンクリック切り替え**: タスクトレイのアイコンを左クリックして、フィルターのON/OFFを切り替えます。
-* **透過度調整**: タスクトレイアイコンを右クリックし「Settings」から、暗さを0〜255の範囲で調整可能です。
-* **多重起動防止**: プロセスの重複起動を自動的に防ぎます。
+* **言語**: C#
+* **フレームワーク**: .NET 8.0 / Windows Presentation Foundation (WPF)
+* **外部依存関係**: `Hardcodet.NotifyIcon.Wpf` (タスクトレイUIの構築に利用)
+* **対象OS**: Windows 10 / 11
 
-## 使い方 (Usage)
+## 2. アーキテクチャ (Architecture)
 
-1. リリースから `ScreenDimmer.exe` をダウンロードします。
-2. ファイルを実行します。
-3. タスクトレイにアイコンが常駐し、画面が暗転します。
+本アプリケーションは、通常のウィンドウUIを持たず、バックグラウンドプロセスとして常駐する設計となっています。
 
-## 開発環境 (Development)
+### オーバーレイウィンドウ (Overlay Window)
+画面の暗転は、OSのディスプレイ輝度を直接操作するのではなく、画面全体を覆う仮想的なウィンドウ（`OverlayWindow`）を描画することで擬似的に実現しています。
+* `WindowStyle="None"`, `AllowsTransparency="True"`, `Topmost="True"` プロパティを組み合わせることで、タイトルバーのない完全な透明ウィンドウを最前面に固定しています。
+* 背景色（黒）のアルファ値（Opacity）を0から255の間で操作することで、暗さの段階的な調整を可能にしています。
+* OSのAPIフックを必要とせず、ユーザーのマウスクリック等のイベントは背後のアプリケーションへそのまま透過（Click-through）される構造です。
 
-* C# / WPF
-* .NET 8.0 (Windows)
-* Hardcodet.NotifyIcon.Wpf
+### タスクトレイ常駐化 (Task Tray Integration)
+アプリケーションの制御インターフェースは、Windowsのタスクトレイ（通知領域）に集約しています。
+* 左クリックによるイベントトラッキングで、オーバーレイの表示状態（可視/不可視）を即座にトグル（切り替え）します。
+* 右クリックのコンテキストメニューを通じて、非同期処理による設定変更（透過度調整スライダーの展開）およびプロセスの安全な終了（Exit）を管理します。
+
+## 3. 排他制御ロジック (Concurrency Control)
+
+意図しない多重起動によるプロセスのメモリ滞留およびオーバーレイの重複描画を防ぐため、OSレベルでの排他制御を実装しています。
+* アプリケーションの起動エントリポイント（`App.xaml.cs`）にて、`System.Threading.Mutex` クラスを用いて固有のミューテックス名（例: `ScreenDimmerAppMutex`）の取得を試行します。
+* 既にミューテックスが取得されている（＝メモリ上に他のインスタンスが存在する）と判定された場合、後続のプロセスは画面を描画せずに即座に `Application.Current.Shutdown()` を呼び出し、静かに終了します。
+
+## 4. デプロイメント構造 (Deployment Structure)
+
+本アプリケーションは、.NET 8.0の「単一ファイル発行（Single-file deployment）」機能を用いてコンパイルされています。
+* `PublishSingleFile=true` の設定により、アプリケーション本体のコードに加え、.NETランタイムの一部および外部依存DLLが1つの `.exe` ファイル内にパッキングされています。
+* これにより、ユーザー側の環境に特定のフレームワークやライブラリがインストールされているかに依存せず、レジストリを汚染することなく単一の実行ファイルのみで動作を完結させます。
