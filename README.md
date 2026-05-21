@@ -60,7 +60,7 @@ https://github.com/user-attachments/assets/aa0f9a43-45f7-4d2c-afcb-d631691c31ef
 
 ## 5. 免責事項・ライセンス (License)
 
-本ソフトウェアは、Atelier Kabemier による趣味のプロジェクトであり、MITライセンスの下で公開されています。
+本ソフトウェアは、私(椎名一霤)による趣味のプロジェクトであり、MITライセンスの下で公開されています。
 本ツールの利用によって生じた損害等について、作者は一切の責任を負いません。自己責任において目の安寧のためにご利用ください。
 
-Copyright (c) 2026 Atelier Kabemier
+© 2026 椎名一霤
