@@ -51,6 +51,13 @@ namespace ScreenDimmer
             var overlay = new OverlayWindow();
             _overlays.Add(overlay);
 
+            // プライマリモニターの原点 (0, 0) に固定してから最大化する。
+            // WindowState をコードで設定することで、サブモニターから起動した場合でも
+            // 必ずプライマリ画面に展開されることを保証する。
+            overlay.Left = 0;
+            overlay.Top  = 0;
+            overlay.WindowState = System.Windows.WindowState.Maximized;
+
             ApplySettings();
             overlay.Show();
         }

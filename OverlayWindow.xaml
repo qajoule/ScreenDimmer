@@ -5,7 +5,7 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Topmost="True"
-        WindowState="Maximized"
+        WindowStartupLocation="Manual"
         ShowInTaskbar="False"
         Background="Transparent"
         IsHitTestVisible="False">

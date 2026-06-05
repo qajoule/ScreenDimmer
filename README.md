@@ -20,7 +20,7 @@ ScreenDimmerは、Windows 10/11環境において、メインモニターの輝�
 お気に召したらスタートアップフォルダにショートカットを追加するなどして適宜ご利用ください。
 
 ScreenDimmer is a lightweight, portable utility for Windows 10/11 that simulates brightness adjustment on your primary monitor.
-It generates a black, click-through overlay that covers the entire main screen, effectively lowering the perceived brightness while ignoring all user inputs.
+It generates a black, click-through overlay that covers the entire **primary monitor**, effectively lowering the perceived brightness while ignoring all user inputs. Note: only the primary display is targeted by design.
 Designed for simplicity and reliability, it requires no installation. If you find it useful, feel free to add a shortcut to your Startup folder for daily use.
 
 ## 2. 特徴 (Features)
@@ -35,7 +35,7 @@ Designed for simplicity and reliability, it requires no installation. If you fin
 
 ### オーバーレイウィンドウ (Overlay Window)
 
-* `WindowState="Maximized"` を利用し、プライマリディスプレイ（メインモニター）全体を覆う仮想的なウィンドウを生成します。
+* オーバーレイウィンドウは起動時に座標 (0, 0) に固定したうえで `WindowState.Maximized` を適用し、**プライマリモニターに確実に展開**します。これにより、サブモニター上の Explorer などからアプリを起動した場合でも、常にプライマリ画面に表示されます。本ツールはプライマリモニターの減光専用です。
 * `WindowStyle="None"`, `AllowsTransparency="True"`, `Topmost="True"` の組み合わせにより、タイトルバーのない最前面フィルターを実現しています。
 * Win32 API（`SetWindowLong`）を用いて `WS_EX_TRANSPARENT` および `WS_EX_LAYERED` を付与し、マウスクリックなどの入力を背後のアプリケーションへ完全に透過させます。
 
