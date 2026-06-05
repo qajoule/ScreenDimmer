@@ -56,10 +56,11 @@ namespace ScreenDimmer
             // 必ずプライマリ画面に展開されることを保証する。
             overlay.Left = 0;
             overlay.Top  = 0;
-            overlay.WindowState = System.Windows.WindowState.Maximized;
-
             ApplySettings();
             overlay.Show();
+            // Show() でウィンドウを (0,0) に配置してから最大化することで
+            // プライマリモニターへの展開を確実に保証する。
+            overlay.WindowState = System.Windows.WindowState.Maximized;
         }
 
         public void ToggleFilter()
